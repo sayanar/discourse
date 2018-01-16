@@ -1,5 +1,5 @@
 import { cleanDOM } from 'discourse/lib/clean-dom';
-import { startPageTracking } from 'discourse/lib/page-tracker';
+import { startPageTracking, googleTagManagerPageChanged } from 'discourse/lib/page-tracker';
 import { viewTrackingRequired } from 'discourse/lib/ajax';
 
 export default {
@@ -36,13 +36,7 @@ export default {
     // And Google Tag Manager too
     if (typeof window.dataLayer !== 'undefined') {
       appEvents.on('page:changed', data => {
-        window.dataLayer.push({
-          'event': 'virtualPageView',
-          'page': {
-            'title': data.title,
-            'url': data.url
-          }
-        });
+        googleTagManagerPageChanged(data);
       });
     }
   }
